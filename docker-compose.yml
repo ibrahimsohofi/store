@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: sohofi_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: products_manager
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - sohofi_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: sohofi_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - sohofi_network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: sohofi_api
+    environment:
+      NODE_ENV: production
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: products_manager
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "4001:4001"
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - sohofi_network
+
+  ssr:
+    build:
+      context: .
+      dockerfile: Dockerfile.ssr
+    container_name: sohofi_ssr
+    environment:
+      NODE_ENV: production
+      API_URL: http://api:4001
+    ports:
+      - "4000:4000"
+    depends_on:
+      - api
+    networks:
+      - sohofi_network
+
+  caddy:
+    image: caddy:latest
+    container_name: sohofi_caddy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - ssr
+      - api
+    networks:
+      - sohofi_network
+
+volumes:
+  mysql_data:
+  redis_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  sohofi_network:
+    driver: bridge

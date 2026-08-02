@@ -1,0 +1,92 @@
+<mjml>
+  <mj-head>
+    <mj-font name="Roboto" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" />
+    <mj-style>
+      .button { background-color: #10B981; color: white; }
+    </mj-style>
+  </mj-head>
+  <mj-body background-color="#f5f5f5">
+    <mj-section background-color="#ffffff">
+      <mj-column>
+        <mj-text font-family="Roboto" font-size="24px" font-weight="bold" color="#333333" align="center">
+          SOHOFI BRICO
+        </mj-text>
+        <mj-text font-family="Roboto" font-size="16px" color="#666666" align="center">
+          Confirmation de commande
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-text font-family="Roboto" font-size="14px" color="#333333">
+          Bonjour {{firstName}},
+        </mj-text>
+        <mj-text font-family="Roboto" font-size="14px" color="#333333" padding-top="10px">
+          Merci pour votre commande ! Nous avons bien reçu votre commande n°{{orderNumber}}.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-text font-family="Roboto" font-size="16px" font-weight="bold" color="#333333">
+          Détails de la commande
+        </mj-text>
+        <mj-table font-family="Roboto" font-size="14px">
+          <tr>
+            <th style="background-color: #10B981; color: white;">Produit</th>
+            <th style="background-color: #10B981; color: white;">Qté</th>
+            <th style="background-color: #10B981; color: white;">Prix</th>
+          </tr>
+          {{#each items}}
+          <tr>
+            <td>{{name}}</td>
+            <td>{{qty}}</td>
+            <td>{{unit_price}} MAD</td>
+          </tr>
+          {{/each}}
+        </mj-table>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-text font-family="Roboto" font-size="14px" color="#333333">
+          <strong>Sous-total:</strong> {{subtotal}} MAD<br/>
+          <strong>Livraison:</strong> {{shipping_cost}} MAD<br/>
+          <strong>TVA (20%):</strong> {{vat_amount}} MAD<br/>
+          <strong>Total:</strong> {{total}} MAD
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-text font-family="Roboto" font-size="14px" color="#333333">
+          <strong>Adresse de livraison:</strong><br/>
+          {{shippingAddress.firstName}} {{shippingAddress.lastName}}<br/>
+          {{shippingAddress.address_line1}}<br/>
+          {{shippingAddress.city}}, {{shippingAddress.postal_code}}<br/>
+          {{shippingAddress.phone}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#ffffff" padding="20px">
+      <mj-column>
+        <mj-button href="{{orderUrl}}" background-color="#10B981" color="white" font-family="Roboto" font-size="14px">
+          Voir ma commande
+        </mj-button>
+      </mj-column>
+    </mj-section>
+
+    <mj-section background-color="#f5f5f5" padding="20px">
+      <mj-column>
+        <mj-text font-family="Roboto" font-size="12px" color="#999999" align="center">
+          © 2024 SOHOFI BRICO. Tous droits réservés.
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -1,0 +1,11 @@
+{
+  auto_https off
+}
+
+:80 {
+  reverse_proxy ssr:4000
+}
+
+:443 {
+  reverse_proxy ssr:4000
+}
